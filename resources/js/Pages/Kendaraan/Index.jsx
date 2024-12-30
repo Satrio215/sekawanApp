@@ -28,7 +28,7 @@ return (
                     <div className="p-6 bg-gray-100 border-b border-gray-200">
                         <h3 className="text-2xl font-bold text-gray-800 mb-4">Daftar Kendaraan</h3>
 
-                        {/* Add New Vehicle Button */}
+                        {/* Add New Riwayat Button */}
                         <div className="mb-4">
                             <Link
                                 href={route('kendaraans.create')}

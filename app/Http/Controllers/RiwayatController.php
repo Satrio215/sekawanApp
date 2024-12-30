@@ -19,6 +19,7 @@ class RiwayatController extends Controller
         return inertia('Riwayat/Index', [
             'riwayats' => $riwayats,
             'nama' => $kendaraan->nama ?? 'Kendaraan Tidak Ditemukan',
+            'id_kendaraan' => $id_kendaraan,
         ]);
     }
 

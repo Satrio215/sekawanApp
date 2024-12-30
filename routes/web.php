@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/kendaraans/{id}', [KendaraanController::class, 'destroy'])->name('kendaraans.destroy');
 
     Route::get('/riwayats/{id}', [RiwayatController::class, 'index'])->name('riwayats.index');
-    Route::get('/riwayats/{id}/create', [RiwayatController::class, 'create'])->name('riwayats.create');
+    Route::get('/riwayats/{id_kendaraan}/create', [RiwayatController::class, 'create'])->name('riwayats.create');
     Route::post('/riwayats/{id_kendaraan}', [RiwayatController::class, 'store'])->name('riwayats.store');
     Route::get('/riwayats/edit/{id_kendaraan}/{id}', [RiwayatController::class, 'edit'])->name('riwayats.edit');
     Route::put('/riwayats/{id_kendaraan}/{id}', [RiwayatController::class, 'update'])->name('riwayats.update');

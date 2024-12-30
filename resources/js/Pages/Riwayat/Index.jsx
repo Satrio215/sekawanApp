@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 
-export default function RiwayatIndex({ riwayats, nama, auth }) {
+export default function RiwayatIndex({ riwayats, nama, auth, id_kendaraan }) {
     const handleDelete = (id_kendaraan, id) => {
         if (confirm('Apakah Anda yakin ingin menghapus riwayat ini?')) {
             // Check the output of the route() function
@@ -19,9 +19,6 @@ export default function RiwayatIndex({ riwayats, nama, auth }) {
         }
     };
 
-
-
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -35,6 +32,15 @@ export default function RiwayatIndex({ riwayats, nama, auth }) {
                         <div className="p-6 bg-gray-100 border-b border-gray-200">
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">Riwayat Kendaraan: {nama}</h3>
 
+                            <div className="mb-4">
+                            <Link
+                                href={route('riwayats.create', { id_kendaraan })}
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition ease-in-out duration-300"
+                            >
+                                Tambah Riwayat
+                            </Link>
+
+                            </div>
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-300 bg-white rounded-lg shadow table-auto">
                                     <thead>
