@@ -36,6 +36,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Kendaraan
                                 </NavLink>
+                                <NavLink
+                                    href={route('supirs.index')}
+                                    active={route().current('supirs.index')}
+                                >
+                                    Supir
+                                </NavLink>
                             </div>
                         </div>
 

@@ -12,7 +12,11 @@ class SupirController extends Controller
      */
     public function index()
     {
-        //
+        $supirs = Supir::latest()->get();
+
+        return inertia('Supir/Index', [
+            'supirs' => $supirs
+        ]);
     }
 
     /**
@@ -20,7 +24,8 @@ class SupirController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Supir/Create');
+
     }
 
     /**
@@ -28,7 +33,14 @@ class SupirController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'telp' => 'required|string|max:255',
+        ]);
+
+        Supir::create($request->only(['nama', 'telp']));
+
+        return redirect()->route('supirs.index')->with('success', 'Kendaraan berhasil ditambahkan.');
     }
 
     /**
@@ -42,24 +54,44 @@ class SupirController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supir $supir)
+    public function edit($id)
     {
-        //
+        $supir = Supir::findOrFail($id);
+
+        return inertia('Supir/Edit', [
+            'supir' => $supir,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Supir $supir)
+    public function update(Request $request, $id)
     {
-        //
+        $supir = Supir::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'telp' => 'required|string|max:255',
+        ]);
+
+        $supir->update([
+            'nama' => $request->input('nama'),
+            'telp' => $request->input('telp'),
+        ]);
+
+        return redirect()->route('supirs.index')->with('success', 'Kendaraan berhasil diupdate.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supir $supir)
+    public function destroy(Supir $supir, $id)
     {
-        //
+        $supir = Supir::findOrFail($id);
+        $supir->delete();
+
+        return response()->json(['message' => 'Supir berhasil dihapus.']);
     }
 }
+
