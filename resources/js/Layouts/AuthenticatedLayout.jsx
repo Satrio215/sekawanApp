@@ -31,6 +31,18 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    href={route('lokasis.index')}
+                                    active={route().current('lokasis.index')}
+                                >
+                                    Lokasi Kantor
+                                </NavLink>
+                                <NavLink
+                                    href={route('penyetujus.index')}
+                                    active={route().current('penyetujus.index')}
+                                >
+                                    Penyetuju
+                                </NavLink>
+                                <NavLink
                                     href={route('kendaraans.index')}
                                     active={route().current('kendaraans.index')}
                                 >
@@ -43,10 +55,10 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Supir
                                 </NavLink>
                                 <NavLink
-                                    href={route('lokasis.index')}
-                                    active={route().current('lokasis.index')}
+                                    href={route('pemesanans.index')}
+                                    active={route().current('pemesanans.index')}
                                 >
-                                    Lokasi Kantor
+                                    Pemesanan Kendaraan
                                 </NavLink>
                             </div>
                         </div>
@@ -151,6 +163,36 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('dashboard')}
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('lokasis.index')}
+                            active={route().current('lokasis.index')}
+                        >
+                            Lokasi Kantor
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('penyetujus.index')}
+                            active={route().current('penyetujus.index')}
+                        >
+                            Penyetuju
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('kendaraans.index')}
+                            active={route().current('kendaraans.index')}
+                        >
+                            Kendaraan
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('supirs.index')}
+                            active={route().current('supirs.index')}
+                        >
+                            Supir
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('pemesanans.index')}
+                            active={route().current('pemesanans.index')}
+                        >
+                            Pemesanan Kendaraan
                         </ResponsiveNavLink>
                     </div>
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\PenyetujuController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\SupirController;
 use App\Http\Controllers\RiwayatController;
@@ -58,6 +60,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/lokasis/edit/{id}', [LokasiController::class, 'edit'])->name('lokasis.edit');
     Route::put('/lokasis/{id}', [LokasiController::class, 'update'])->name('lokasis.update');
     Route::delete('/lokasis/{id}', [LokasiController::class, 'destroy'])->name('lokasis.destroy');
+
+    //Penyetuju
+    Route::get('/penyetujus', [PenyetujuController::class, 'index'])->name('penyetujus.index');
+    Route::get('/penyetujus/create', [PenyetujuController::class, 'create'])->name('penyetujus.create');
+    Route::post('/penyetujus', [PenyetujuController::class, 'store'])->name('penyetujus.store');
+    Route::get('/penyetujus/edit/{id}', [PenyetujuController::class, 'edit'])->name('penyetujus.edit');
+    Route::put('/penyetujus/{id}', [PenyetujuController::class, 'update'])->name('penyetujus.update');
+    Route::delete('/penyetujus/{id}', [PenyetujuController::class, 'destroy'])->name('penyetujus.destroy');
+
+    Route::get('/pemesanans', [PemesananController::class, 'index'])->name('pemesanans.index');
+    Route::get('/pemesanans/create', [PemesananController::class, 'create'])->name('pemesanans.create');
+    Route::post('/pemesanans', [PemesananController::class, 'store'])->name('pemesanans.store');
+    Route::get('/pemesanans/edit/{id}', [PemesananController::class, 'edit'])->name('pemesanans.edit');
+    Route::put('/pemesanans/{id}', [PemesananController::class, 'update'])->name('pemesanans.update');
+    Route::delete('/pemesanans/{id}', [PemesananController::class, 'destroy'])->name('pemesanans.destroy');
 
 });
 
