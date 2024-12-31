@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kendaraans', function (Blueprint $table) {
+        Schema::create('lokasis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_lokasi');
-            $table->string('nama');
-            $table->enum('jenis', ['orang', 'barang', 'sewa']);
-            $table->foreign('id_lokasi')->references('id')->on('lokasis')->onDelete('cascade');
+            $table->string('lokasi');
+            $table->string('jalan');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kendaraans');
+        Schema::dropIfExists('lokasis');
     }
 };

@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('supirs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_lokasi');
             $table->string('nama');
             $table->string('telp');
+            $table->foreign('id_lokasi')->references('id')->on('lokasis')->onDelete('cascade');
             $table->timestamps();
         });
     }

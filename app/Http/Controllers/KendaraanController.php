@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kendaraan;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
 
 class KendaraanController extends Controller
@@ -12,10 +13,10 @@ class KendaraanController extends Controller
      */
     public function index()
     {
-        $kendaraans = Kendaraan::latest()->get();
+        $kendaraans = Kendaraan::with('lokasi')->get();
 
         return inertia('Kendaraan/Index', [
-            'kendaraans' => $kendaraans
+            'kendaraans' => $kendaraans,
         ]);
     }
 
@@ -24,7 +25,10 @@ class KendaraanController extends Controller
      */
     public function create()
     {
-        return inertia('Kendaraan/Create');
+        $lokasis = Lokasi::all(); // Or however you're fetching the location data
+        return inertia('Kendaraan/Create', [
+            'lokasis' => $lokasis,
+    ]);
     }
 
     /**
@@ -35,9 +39,10 @@ class KendaraanController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis' => 'required|in:orang,barang,sewa',
+            'id_lokasi' => 'required|exists:lokasis,id',
         ]);
 
-        Kendaraan::create($request->only(['nama', 'jenis']));
+        Kendaraan::create($request->only(['nama', 'jenis', 'id_lokasi']));
 
         return redirect()->route('kendaraans.index')->with('success', 'Kendaraan berhasil ditambahkan.');
     }
@@ -47,9 +52,7 @@ class KendaraanController extends Controller
      */
     public function show(Kendaraan $kendaraan)
     {
-        return inertia('Kendaraan/Show', [
-            'kendaraan' => $kendaraan
-        ]);
+        //
     }
 
     /**
@@ -58,9 +61,11 @@ class KendaraanController extends Controller
     public function edit($id)
     {
         $kendaraan = Kendaraan::findOrFail($id);
+        $lokasis = Lokasi::all();
 
         return inertia('Kendaraan/Edit', [
             'kendaraan' => $kendaraan,
+            'lokasis' => $lokasis,
         ]);
     }
 
@@ -74,11 +79,15 @@ class KendaraanController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis' => 'required|in:orang,barang,sewa',
+            'id_lokasi' => 'required|exists:lokasis,id',
+
         ]);
 
         $kendaraan->update([
             'nama' => $request->input('nama'),
             'jenis' => $request->input('jenis'),
+            'id_lokasi' => $request->input('id_lokasi'), 
+
         ]);
 
         return redirect()->route('kendaraans.index')->with('success', 'Kendaraan berhasil diupdate.');

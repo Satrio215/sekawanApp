@@ -42,6 +42,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     Supir
                                 </NavLink>
+                                <NavLink
+                                    href={route('lokasis.index')}
+                                    active={route().current('lokasis.index')}
+                                >
+                                    Lokasi Kantor
+                                </NavLink>
                             </div>
                         </div>
 

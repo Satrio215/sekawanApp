@@ -1,10 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
-export default function Edit({ auth, kendaraan }) {
+export default function Edit({ auth, kendaraan, lokasis }) {
     const { data, setData, put, errors } = useForm({
         nama: kendaraan.nama,
         jenis: kendaraan.jenis,
+        id_lokasi: kendaraan.id_lokasi, // Include the location in the form
     });
 
     const { flash } = usePage().props;
@@ -64,6 +65,26 @@ export default function Edit({ auth, kendaraan }) {
                                     </select>
                                     {errors.jenis && (
                                         <div className="text-red-500 text-xs mt-1">{errors.jenis}</div>
+                                    )}
+                                </div>
+
+                                {/* Input Lokasi */}
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700">Lokasi Kendaraan</label>
+                                    <select
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                        value={data.id_lokasi} // Menggunakan nilai lokasi yang sudah ada
+                                        onChange={(e) => setData('id_lokasi', e.target.value)} // Memperbarui nilai lokasi
+                                        required
+                                    >
+                                        {lokasis.map((lokasi) => (
+                                            <option key={lokasi.id} value={lokasi.id}>
+                                                {lokasi.lokasi}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.id_lokasi && (
+                                        <div className="text-red-500 text-xs mt-1">{errors.id_lokasi}</div>
                                     )}
                                 </div>
 
