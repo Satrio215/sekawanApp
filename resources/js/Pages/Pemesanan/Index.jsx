@@ -1,5 +1,8 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import React from 'react';
 import { Head, Link } from '@inertiajs/react';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function PemesananIndex({ pemesanans, auth }) {
     const handleDelete = (id) => {
@@ -13,6 +16,28 @@ export default function PemesananIndex({ pemesanans, auth }) {
                     console.error('Error deleting pemesanan:', error);
                 });
         }
+    };
+
+    const exportToExcel = () => {
+        // Mengambil data yang akan diekspor
+        const data = pemesanans.map((pemesanan) => ({
+            'Nama Pemesan': pemesanan.nama_pemesan,
+            'Kendaraan': pemesanan.kendaraan ? `${pemesanan.kendaraan.nama} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Kendaraan tidak ditemukan',
+            'Penyetuju': pemesanan.penyetuju ? `${pemesanan.penyetuju.email} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Penyetuju tidak ditemukan',
+            'Dibutuhkan Tanggal': pemesanan.hari,
+            'Telepon Pemesan': pemesanan.telp_pemesan,
+            'Status Admin': pemesanan.status_user,
+            'Status Penyetuju': pemesanan.status_penyetuju
+        }));
+
+        // Membuat workbook dan worksheet
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Pemesanan');
+
+        // Menyimpan file excel
+        const fileName = 'Pemesanan.xlsx';
+        XLSX.writeFile(wb, fileName);
     };
 
     return (
@@ -38,6 +63,16 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                 </Link>
                             </div>
 
+                            {/* Export to Excel Button */}
+                            <div className="mb-4">
+                                <button
+                                    onClick={exportToExcel}
+                                    className="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 transition ease-in-out duration-300"
+                                >
+                                    Export ke Excel
+                                </button>
+                            </div>
+
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-300 bg-white rounded-lg shadow table-auto">
                                     <thead>
@@ -45,7 +80,7 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Nama Pemesan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Kendaraan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Penyetuju</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Tanggal</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Dibutuhkan Tanggal</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Telepon Pemesan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status Admin</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status Penyetuju</th>
@@ -65,19 +100,16 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{pemesanan.hari}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{pemesanan.telp_pemesan}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    {/* Status User */}
                                                     <span className={`px-3 py-1 rounded-full text-sm ${pemesanan.status_user === 'disetujui' ? 'bg-green-100 text-green-600' : pemesanan.status_user === 'ditolak' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'}`}>
                                                         {pemesanan.status_user}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    {/* Status Penyetuju */}
                                                     <span className={`px-3 py-1 rounded-full text-sm ${pemesanan.status_penyetuju === 'disetujui' ? 'bg-green-100 text-green-600' : pemesanan.status_penyetuju === 'ditolak' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'}`}>
                                                         {pemesanan.status_penyetuju}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm flex space-x-2">
-                                                    {/* Edit Button */}
                                                     <Link
                                                         href={route('pemesanans.edit', pemesanan.id)}
                                                         className="border border-green-600 text-green-600 px-4 py-2 rounded-lg shadow transition-colors duration-300 ease-in-out hover:bg-green-600 hover:text-white text-sm"
@@ -85,7 +117,6 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                                         Edit
                                                     </Link>
 
-                                                    {/* Delete Button */}
                                                     <button
                                                         onClick={() => handleDelete(pemesanan.id)}
                                                         className="border border-red-600 text-red-600 px-4 py-2 rounded-lg shadow transition-colors duration-300 ease-in-out hover:bg-red-600 hover:text-white text-sm"

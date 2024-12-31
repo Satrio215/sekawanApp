@@ -141,7 +141,7 @@ export default function EditPemesanan({ auth, pemesanan, lokasis, kendaraans, pe
 
                                 {/* Tanggal Pemesanan */}
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Tanggal Pemesanan</label>
+                                    <label className="block text-sm font-medium text-gray-700">Dibutuhkan Tanggal</label>
                                     <input
                                         type="date"
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
