@@ -44,6 +44,7 @@ export default function SupirIndex({ supirs, auth }) {
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Nama</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Telepon</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Lokasi</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
                                         </tr>
                                     </thead>
@@ -52,6 +53,9 @@ export default function SupirIndex({ supirs, auth }) {
                                             <tr key={supir.id} className="hover:bg-gray-50">
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{supir.nama}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{supir.telp}</td>
+                                                <td className="px-4 py-2 whitespace-nowrap text-sm">
+                                                    {supir.id_lokasi ? supir.lokasi.lokasi : 'Lokasi tidak tersedia'}
+                                                    </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm flex space-x-2">
                                                     {/* Edit Button */}
                                                     <Link

@@ -1,10 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
-export default function Create({ auth }) {
+export default function Create({ auth, lokasis }) {
     const { data, setData, post, errors } = useForm({
         nama: '',
-        telp: ''
+        telp: '',
+        id_lokasi: '' // Adding the id_lokasi to the form data
     });
 
     const { flash } = usePage().props; // Accessing flash messages from the server-side
@@ -60,6 +61,27 @@ export default function Create({ auth }) {
                                         required
                                     />
                                     {errors.telp && <div className="text-red-500 text-xs mt-1">{errors.telp}</div>}
+                                </div>
+
+                                {/* Lokasi */}
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700">Lokasi</label>
+                                    <select
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                        value={data.id_lokasi}
+                                        onChange={(e) => setData('id_lokasi', e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Pilih Lokasi</option>
+                                        {lokasis.map((lokasi) => (
+                                            <option key={lokasi.id} value={lokasi.id}>
+                                                {lokasi.lokasi}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.id_lokasi && (
+                                        <div className="text-red-500 text-xs mt-1">{errors.id_lokasi}</div>
+                                    )}
                                 </div>
 
                                 {/* Submit Button */}

@@ -10,6 +10,12 @@ class Supir extends Model
     use HasFactory;
     protected  $fillable = [
         'nama',
-        'telp'
+        'telp',
+        'id_lokasi'
     ];
+
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class, 'id_lokasi');
+    }
 }

@@ -28,7 +28,7 @@ class KendaraanController extends Controller
         $lokasis = Lokasi::all(); // Or however you're fetching the location data
         return inertia('Kendaraan/Create', [
             'lokasis' => $lokasis,
-    ]);
+        ]);
     }
 
     /**
@@ -86,7 +86,7 @@ class KendaraanController extends Controller
         $kendaraan->update([
             'nama' => $request->input('nama'),
             'jenis' => $request->input('jenis'),
-            'id_lokasi' => $request->input('id_lokasi'), 
+            'id_lokasi' => $request->input('id_lokasi'),
 
         ]);
 

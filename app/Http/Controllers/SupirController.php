@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supir;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
 
 class SupirController extends Controller
@@ -12,7 +13,7 @@ class SupirController extends Controller
      */
     public function index()
     {
-        $supirs = Supir::latest()->get();
+        $supirs = Supir::with('lokasi')->get();
 
         return inertia('Supir/Index', [
             'supirs' => $supirs
@@ -24,8 +25,10 @@ class SupirController extends Controller
      */
     public function create()
     {
-        return inertia('Supir/Create');
-
+        $lokasis = Lokasi::all(); // Or however you're fetching the location data
+        return inertia('Supir/Create', [
+            'lokasis' => $lokasis,
+        ]);
     }
 
     /**
@@ -36,9 +39,10 @@ class SupirController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'telp' => 'required|string|max:255',
+            'id_lokasi' => 'required|exists:lokasis,id',
         ]);
 
-        Supir::create($request->only(['nama', 'telp']));
+        Supir::create($request->only(['nama', 'telp', 'id_lokasi']));
 
         return redirect()->route('supirs.index')->with('success', 'Kendaraan berhasil ditambahkan.');
     }
@@ -57,9 +61,11 @@ class SupirController extends Controller
     public function edit($id)
     {
         $supir = Supir::findOrFail($id);
+        $lokasis = Lokasi::all();
 
         return inertia('Supir/Edit', [
             'supir' => $supir,
+            'lokasis' => $lokasis
         ]);
     }
 
@@ -73,11 +79,13 @@ class SupirController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'telp' => 'required|string|max:255',
+            'id_lokasi' => 'required|exists:lokasis,id',
         ]);
 
         $supir->update([
             'nama' => $request->input('nama'),
             'telp' => $request->input('telp'),
+            'id_lokasi' => $request->input('id_lokasi'),
         ]);
 
         return redirect()->route('supirs.index')->with('success', 'Kendaraan berhasil diupdate.');
