@@ -19,25 +19,25 @@ export default function PemesananIndex({ pemesanans, auth }) {
     };
 
     const exportToExcel = () => {
-        // Mengambil data yang akan diekspor
         const data = pemesanans.map((pemesanan) => ({
             'Nama Pemesan': pemesanan.nama_pemesan,
-            'Kendaraan': pemesanan.kendaraan ? `${pemesanan.kendaraan.nama} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Kendaraan tidak ditemukan',
-            'Penyetuju': pemesanan.penyetuju ? `${pemesanan.penyetuju.email} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Penyetuju tidak ditemukan',
+            'Kendaraan': pemesanan.kendaraan
+                ? `${pemesanan.kendaraan.nama} (${pemesanan.kendaraan.jenis}) - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}`
+                : 'Kendaraan tidak ditemukan',
+            'Penyetuju': pemesanan.penyetuju
+                ? `${pemesanan.penyetuju.email} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}`
+                : 'Penyetuju tidak ditemukan',
             'Dibutuhkan Tanggal': pemesanan.hari,
+            'Lokasi Dibutuhkan': pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan',
             'Telepon Pemesan': pemesanan.telp_pemesan,
             'Status Admin': pemesanan.status_user,
-            'Status Penyetuju': pemesanan.status_penyetuju
+            'Status Penyetuju': pemesanan.status_penyetuju,
         }));
 
-        // Membuat workbook dan worksheet
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Pemesanan');
-
-        // Menyimpan file excel
-        const fileName = 'Pemesanan.xlsx';
-        XLSX.writeFile(wb, fileName);
+        XLSX.writeFile(wb, 'Pemesanan.xlsx');
     };
 
     return (
@@ -53,7 +53,6 @@ export default function PemesananIndex({ pemesanans, auth }) {
                         <div className="p-6 bg-gray-100 border-b border-gray-200">
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">Daftar Pemesanan</h3>
 
-                            {/* Add New Pemesanan Button */}
                             <div className="mb-4">
                                 <Link
                                     href={route('pemesanans.create')}
@@ -63,7 +62,6 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                 </Link>
                             </div>
 
-                            {/* Export to Excel Button */}
                             <div className="mb-4">
                                 <button
                                     onClick={exportToExcel}
@@ -80,6 +78,7 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Nama Pemesan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Kendaraan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Penyetuju</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Lokasi Dibutuhkan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Dibutuhkan Tanggal</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Telepon Pemesan</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status Admin</th>
@@ -92,20 +91,43 @@ export default function PemesananIndex({ pemesanans, auth }) {
                                             <tr key={pemesanan.id} className="hover:bg-gray-50">
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{pemesanan.nama_pemesan}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    {pemesanan.kendaraan ? `${pemesanan.kendaraan.nama} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Kendaraan tidak ditemukan'}
+                                                    {pemesanan.kendaraan
+                                                        ? `${pemesanan.kendaraan.nama} (${pemesanan.kendaraan.jenis}) - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}`
+                                                        : 'Kendaraan tidak ditemukan'}
                                                 </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    {pemesanan.penyetuju ? `${pemesanan.penyetuju.email} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}` : 'Penyetuju tidak ditemukan'}
+                                                    {pemesanan.penyetuju
+                                                        ? `${pemesanan.penyetuju.email} - ${pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}`
+                                                        : 'Penyetuju tidak ditemukan'}
+                                                </td>
+                                                <td className="px-4 py-2 whitespace-nowrap text-sm">
+                                                    {pemesanan.lokasi ? pemesanan.lokasi.lokasi : 'Lokasi tidak ditemukan'}
                                                 </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{pemesanan.hari}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">{pemesanan.telp_pemesan}</td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${pemesanan.status_user === 'disetujui' ? 'bg-green-100 text-green-600' : pemesanan.status_user === 'ditolak' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'}`}>
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-sm ${
+                                                            pemesanan.status_user === 'disetujui'
+                                                                ? 'bg-green-100 text-green-600'
+                                                                : pemesanan.status_user === 'ditolak'
+                                                                ? 'bg-red-100 text-red-600'
+                                                                : 'bg-yellow-100 text-yellow-600'
+                                                        }`}
+                                                    >
                                                         {pemesanan.status_user}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${pemesanan.status_penyetuju === 'disetujui' ? 'bg-green-100 text-green-600' : pemesanan.status_penyetuju === 'ditolak' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-600'}`}>
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-sm ${
+                                                            pemesanan.status_penyetuju === 'disetujui'
+                                                                ? 'bg-green-100 text-green-600'
+                                                                : pemesanan.status_penyetuju === 'ditolak'
+                                                                ? 'bg-red-100 text-red-600'
+                                                                : 'bg-yellow-100 text-yellow-600'
+                                                        }`}
+                                                    >
                                                         {pemesanan.status_penyetuju}
                                                     </span>
                                                 </td>
