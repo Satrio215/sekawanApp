@@ -60,6 +60,11 @@ class RiwayatController extends Controller
             ->with('success', 'Riwayat kendaraan berhasil ditambahkan.');
     }
 
+    public function show()
+    {
+        //
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

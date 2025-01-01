@@ -52,7 +52,7 @@ class KendaraanController extends Controller
      */
     public function show(Kendaraan $kendaraan)
     {
-        //
+        
     }
 
     /**

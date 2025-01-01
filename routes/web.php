@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PenyetujuController;
 use App\Http\Controllers\LokasiController;
@@ -20,9 +21,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+// Route::get('/dashboardd', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
     //Riwayat Kendaraan By id_kendaraan
     Route::get('/riwayats/{id}', [RiwayatController::class, 'index'])->name('riwayats.index');
+    Route::get('/riwayats', [RiwayatController::class, 'show'])->name('riwayats.show');
     Route::get('/riwayats/{id_kendaraan}/create', [RiwayatController::class, 'create'])->name('riwayats.create');
     Route::post('/riwayats/{id_kendaraan}', [RiwayatController::class, 'store'])->name('riwayats.store');
     Route::get('/riwayats/edit/{id_kendaraan}/{id}', [RiwayatController::class, 'edit'])->name('riwayats.edit');
@@ -75,7 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/pemesanans/edit/{id}', [PemesananController::class, 'edit'])->name('pemesanans.edit');
     Route::put('/pemesanans/{id}', [PemesananController::class, 'update'])->name('pemesanans.update');
     Route::delete('/pemesanans/{id}', [PemesananController::class, 'destroy'])->name('pemesanans.destroy');
-
 });
 
 require __DIR__.'/auth.php';
