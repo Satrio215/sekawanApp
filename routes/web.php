@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/penyetujus/{id}', [PenyetujuController::class, 'update'])->name('penyetujus.update');
     Route::delete('/penyetujus/{id}', [PenyetujuController::class, 'destroy'])->name('penyetujus.destroy');
 
+    //Pemesanan Kendaraan by Admin
     Route::get('/pemesanans', [PemesananController::class, 'index'])->name('pemesanans.index');
     Route::get('/pemesanans/create', [PemesananController::class, 'create'])->name('pemesanans.create');
     Route::post('/pemesanans', [PemesananController::class, 'store'])->name('pemesanans.store');
@@ -85,11 +86,11 @@ Route::middleware('auth')->group(function () {
     Route::post('penyetuju/login', [PenyetujuAuthController::class, 'login']);
     Route::post('penyetuju/logout', [PenyetujuAuthController::class, 'logout'])->name('penyetuju.logout');
 
-    Route::middleware('auth:penyetujus')->group(function () {
-        Route::get('penyetuju/dashboard', [PenyetujuAuthController::class, 'dashboard'])->name('penyetuju.dashboard');
-        Route::get('penyetuju/pengajuan', [PenyetujuUpdateController::class, 'index'])->name('penyetuju.index');
-        Route::get('penyetuju/pengajuan/edit/{id}', [PenyetujuUpdateController::class, 'edit'])->name('penyetuju.edit');
-        Route::put('penyetuju/pengajuan/{id}', [PenyetujuUpdateController::class, 'update'])->name('penyetuju.update');
-    });
+Route::middleware('auth:penyetujus')->group(function () {
+    Route::get('penyetuju/dashboard', [PenyetujuAuthController::class, 'dashboard'])->name('penyetuju.dashboard');
+    Route::get('penyetuju/pengajuan', [PenyetujuUpdateController::class, 'index'])->name('penyetuju.index');
+    Route::get('penyetuju/pengajuan/edit/{id}', [PenyetujuUpdateController::class, 'edit'])->name('penyetuju.edit');
+    Route::put('penyetuju/pengajuan/{id}', [PenyetujuUpdateController::class, 'update'])->name('penyetuju.update');
+});
 
 require __DIR__.'/auth.php';
