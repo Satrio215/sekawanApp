@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PenyetujuUpdateController;
+use App\Http\Controllers\Auth\PenyetujuAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PenyetujuController;
@@ -21,16 +23,9 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
-// Route::get('/dashboardd', [DashboardController::class, 'index'])->name('dashboard');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -85,5 +80,16 @@ Route::middleware('auth')->group(function () {
     Route::put('/pemesanans/{id}', [PemesananController::class, 'update'])->name('pemesanans.update');
     Route::delete('/pemesanans/{id}', [PemesananController::class, 'destroy'])->name('pemesanans.destroy');
 });
+
+    Route::get('penyetuju/login', [PenyetujuAuthController::class, 'showLoginForm'])->name('penyetuju.login');
+    Route::post('penyetuju/login', [PenyetujuAuthController::class, 'login']);
+    Route::post('penyetuju/logout', [PenyetujuAuthController::class, 'logout'])->name('penyetuju.logout');
+
+    Route::middleware('auth:penyetujus')->group(function () {
+        Route::get('penyetuju/dashboard', [PenyetujuAuthController::class, 'dashboard'])->name('penyetuju.dashboard');
+        Route::get('penyetuju/pengajuan', [PenyetujuUpdateController::class, 'index'])->name('penyetuju.index');
+        Route::get('penyetuju/pengajuan/edit/{id}', [PenyetujuUpdateController::class, 'edit'])->name('penyetuju.edit');
+        Route::put('penyetuju/pengajuan/{id}', [PenyetujuUpdateController::class, 'update'])->name('penyetuju.update');
+    });
 
 require __DIR__.'/auth.php';
