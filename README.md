@@ -45,8 +45,7 @@ npm run dev
 php artisan serve
 ```
 ## Tambahan
-
-  <img src="https://ibb.co.com/GQ1jSsx" />
+  <img src="https://i.ibb.co.com/5WwnGpN/struktur.png"/>
 
 
 
