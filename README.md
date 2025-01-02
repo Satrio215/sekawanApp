@@ -3,7 +3,9 @@
 
 Before setting up the project, ensure that you have the following installed:
 
-- PHP (version 8.3 or higher)
+- PHP (version 8.3.6)
+- Laravel (version 11.36.1)
+- PHPMYADMIN (version 5.2.1)
 - Composer
 - NPM
 - MySQL
@@ -44,6 +46,14 @@ php artisan migrate:fresh --seed
 npm run dev
 php artisan serve
 ```
+
+### 6. Login Admin
+
+```shell
+admin@sekawan.dev
+antiApp
+```
+
 ## Tambahan
 
 ### 1. Struktur Model
