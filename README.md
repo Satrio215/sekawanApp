@@ -45,7 +45,12 @@ npm run dev
 php artisan serve
 ```
 ## Tambahan
+
+### 1. Struktur Model
   <img src="https://i.ibb.co.com/5WwnGpN/struktur.png"/>
+
+### 2. Activity Peminjaman
+  <img src="https://i.ibb.co.com/JjbPJxB/activity.png"/>
 
 
 
