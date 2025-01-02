@@ -52,6 +52,10 @@ php artisan serve
 ### 2. Activity Peminjaman
   <img src="https://i.ibb.co.com/JjbPJxB/activity.png"/>
 
+### 3. Log Aplikasi
+  <img src="https://i.ibb.co.com/BPtyJX5/add.png"/>
+  <img src="https://i.ibb.co.com/RB2gVCm/update.png"/>
+  <img src="https://i.ibb.co.com/92zDFvN/delete.png"/>
 
 
 
