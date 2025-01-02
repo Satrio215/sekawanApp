@@ -46,7 +46,7 @@ php artisan serve
 ```
 ## Tambahan
 
-![Activity Preview](asset/activity.png)
+  <img src="https://ibb.co.com/GQ1jSsx" />
 
 
 
